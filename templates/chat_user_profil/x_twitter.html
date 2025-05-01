@@ -1,0 +1,164 @@
+{% load static %}
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ATXAISOFT.COM</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'atxaisoft/ai24.png' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    {% comment %} <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"> {% endcomment %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+
+    {% include 'components/navbar.html' %}
+    <div class="container shadow-sm border-0 rounded-4 bg-light mb-5" >
+        <form class="py-4" id="AgentsForm">
+          <!-- Başlık -->
+          <h5 class="mb-4 text-center fw-bold" style="color: #E1306C;">
+            <i class="bi bi-twitter-x me-2"></i>(Twitter) Agent
+          </h5>
+          <!-- Prompt Alanları -->
+          <div class="row g-4 justify-content-center">
+            <div class="col-12 col-md-6">
+              <div class="form-floating shadow-sm">
+                <textarea 
+                  class="form-control rounded-3 w-100" 
+                  placeholder="Sistem prompt giriniz" 
+                  id="SystemPrompt" 
+                  style="height: 160px;"></textarea>
+                <label for="SystemPrompt">Sistem Prompt</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating shadow-sm">
+                <textarea 
+                  class="form-control rounded-3 w-100" 
+                  placeholder="Kullanıcı prompt giriniz" 
+                  id="UserPrompt" 
+                  style="height: 160px;"></textarea>
+                <label for="UserPrompt">Kullanıcı Prompt</label>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Başlat Butonu -->
+          <div class="row mt-4">
+            <div class="col-12">
+              <button 
+                class="btn w-100 py-3 rounded-3 shadow text-white instagram-btn" 
+                type="submit" 
+                style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border: none;">
+                <strong>X (Twitter) Agent'ı Başlat</strong>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <style>
+        .instagram-btn:hover i {
+          color: white;
+        }
+      </style>
+        <div class="row mt-4 mb-5"> </div>
+   
+    {% include 'components/footer.html' %}
+    <script>
+        document.getElementById("AgentsForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Sayfanın yeniden yüklenmesini engelle
+    
+            let systemPrompt = document.getElementById("SystemPrompt").value;
+            let userPrompt = document.getElementById("UserPrompt").value;
+    
+            // Modal içeriğini al
+            const modalTitle = document.getElementById("exampleModalLabel");
+            const modalBody = document.querySelector("#exampleModal .modal-body");
+    
+            let eksikAlanlar = [];
+    
+            if (systemPrompt.trim() === "") {
+                eksikAlanlar.push("Sistem Promptu");
+            }
+            if (userPrompt.trim() === "") {
+                eksikAlanlar.push("Kullanıcı Promptu");
+            }
+    
+            if (eksikAlanlar.length === 0) {
+                modalTitle.innerText = "Başarılı Giriş";
+                modalBody.innerHTML = '<div class="alert alert-success" role="alert">Form başarıyla gönderildi!</div>';
+    
+                // CSRF token'ını meta tag'den al
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
+                // AJAX isteği ile backend'e veri gönderme
+                fetch("{% url 'asistan:instagram_agents_start' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken // CSRF token'ını gönder
+                    },
+                    body: JSON.stringify({
+                        'SystemPrompt': systemPrompt,
+                        'UserPrompt': userPrompt
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);  // Gelen yanıtı console'a yazdır
+                    // Diğer işlem kodları...
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                modalTitle.innerText = "Hatalı Giriş";
+                let eksikListe = '<ul class="list-group">';
+                eksikAlanlar.forEach(function(alan) {
+                    eksikListe += `<li class="list-group-item list-group-item-danger">${alan}</li>`;
+                });
+                eksikListe += '</ul>';
+    
+                modalBody.innerHTML = 
+                    `<div class="alert alert-danger" role="alert">
+                        Lütfen boş alanları doldurunuz:
+                    </div>` + eksikListe;
+            }
+    
+            // Modalı aç
+            const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            myModal.show();
+        });
+    </script>
+    
+    <!-- Button trigger modal -->
+
+  
+  <!-- Modal Başlangıç -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header position-relative">
+            <h1 class="modal-title fs-5 text-center w-100" id="exampleModalLabel">Modal Başlığı</h1>
+            <button type="button" class="btn-close position-absolute top-50 end-0 translate-middle-y me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+        <div class="modal-body text-center">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">KAPAT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Bitiş -->
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  </body>
+</html>

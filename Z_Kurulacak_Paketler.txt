@@ -1,0 +1,3 @@
+pip install Django 5.1.7
+
+from dateutil.relativedelta import relativedelta #tarih için

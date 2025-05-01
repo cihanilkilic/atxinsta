@@ -1,0 +1,139 @@
+{% load static %}
+<div class="fixed-top bg-white container " style=" position:relative">
+  <nav class="container">
+    <div class="d-flex align-items-center py-2">
+      <!-- Menü Tetikleyici (Sol Taraf) -->
+      <input class="cihannavcustom-checkbox" type="checkbox" id="cihannavcustom-menu-toggle" />
+      <label for="cihannavcustom-menu-toggle" class="cihannavcustom-hamburger-lines me-auto">
+        <span class="cihannavcustom-line cihannavcustom-line1"></span>
+        <span class="cihannavcustom-line cihannavcustom-line2"></span>
+        <span class="cihannavcustom-line cihannavcustom-line3"></span>
+      </label>
+      <!-- Arama Alanı (Orta Kısım) -->
+      <div class="cihannavcustom-search">
+        <input type="text" class="cihannavcustom-search-input border-bottom" placeholder="Ara...">
+      </div>
+
+      <!-- Logo (Sağ Taraf) -->
+      <div class="cihannavcustom-logo ms-auto">
+        <img src="{% static 'atxaisoft/ai.png' %}" alt="Logo" style="height: 25px;">
+      </div>
+
+      <!-- Menü -->
+      <ul class="cihannavcustom-menu-items list-unstyled d-flex gap-3">
+        <li><a href="{% url "atxaisoft:index" %}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-house-door"></i> ANASAYFA</a></li>
+        {% if request.user.is_authenticated %}
+        <li><a href="{% url "asistan:apps" %}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-grid"></i> UYGULAMALAR</a></li>
+        <li><a href="{% url "user:profil" %}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-person-workspace"></i> HESABIM</a></li>
+        <li><a href="{% url "asistan:agents" %}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-boxes"></i> AGENTS</a></li>
+        
+        <li><a href="{% url "user:user_logout" %}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-escape"></i> ÇIKIŞ YAP</a></li>
+        {% else %}
+        <li><a href="{% url "user:sign_in" %}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-box-arrow-in-right "></i> GİRİŞ YAP</a></li>
+        <li><a href="{% url "user:sign_up" %}" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-person-plus "></i> KAYIT OL</a></li>
+        {% endif %}
+
+
+        <li><a href="#" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-info-circle "></i> HAKKIMIZDA</a></li>
+        <li><a href="#" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-basket "></i> ÜRÜNLERİMİZ</a></li>
+        <li><a href="#" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-envelope"></i> İLETİŞİM</a></li>
+        <li><a href="#" class="link-body-emphasis link-offset-2 link-underline-opacity-25 link-underline-opacity-75-hover"><i class="bi bi-pencil-square "></i> BLOG</a></li>
+      </ul>
+      
+    </div>
+  </nav>
+</div>
+
+<style>
+  /* Arama Kutusu */
+  .cihannavcustom-search {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 0 15px;
+  }
+
+  .cihannavcustom-search-input {
+      width: 100%;
+      max-width: 300px;
+      padding: 8px;
+
+      border:none;
+      outline: none;
+      font-size: 14px;
+  }
+
+
+
+  .fixed-top {
+      z-index: 1050;
+  }
+
+  .cihannavcustom-menu-items {
+      flex-direction: column;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background: rgba(255, 255, 255, 0.95);
+      transform: translateX(-100%);
+      transition: transform 0.5s ease-in-out;
+      padding-top: 80px;
+      text-align: center;
+      list-style: none;
+      z-index: 999;
+  }
+
+  .cihannavcustom-menu-items li {
+      margin: 10px 0;
+  }
+
+  .cihannavcustom-menu-items a {
+    /*  text-decoration: none; */
+      color: #0e2431;
+      font-weight: 500;
+      font-size: 1.rem;
+  }
+
+  .cihannavcustom-menu-items a:hover {
+      font-weight: bolder;
+  }
+
+  .cihannavcustom-checkbox {
+      display: none;
+  }
+
+  .cihannavcustom-hamburger-lines {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 32px;
+      height: 26px;
+      cursor: pointer;
+      z-index: 1001;
+  }
+
+  .cihannavcustom-line {
+      height: 4px;
+      width: 100%;
+      border-radius: 10px;
+      background: #0e2431;
+  }
+
+  .cihannavcustom-checkbox:checked ~ .cihannavcustom-menu-items {
+      transform: translateX(0);
+  }
+
+  .cihannavcustom-checkbox:checked ~ .cihannavcustom-hamburger-lines .cihannavcustom-line1 {
+      transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .cihannavcustom-checkbox:checked ~ .cihannavcustom-hamburger-lines .cihannavcustom-line2 {
+      opacity: 0;
+  }
+
+  .cihannavcustom-checkbox:checked ~ .cihannavcustom-hamburger-lines .cihannavcustom-line3 {
+      transform: rotate(-45deg) translate(5px, -5px);
+  }
+</style>

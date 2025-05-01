@@ -1,0 +1,455 @@
+{% load static %}
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ATXAISOFT.COM</title>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+
+    <link rel="icon" type="image/x-icon" href="{% static 'atxaisoft/ai24.png' %}">
+    {% comment %} <link rel="stylesheet" href="{% static 'js/agents.js' %}"> {% endcomment %}
+    {% comment %} <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"> {% endcomment %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+
+    {% include 'components/navbar.html' %}
+    <div class="d-flex align-items-center px-4 py-2 container">
+      <h4 class="me-3">✨ ATX AGENTS</h4>
+      <hr class="flex-grow-1" style="margin: 0;">
+    </div>
+    <div class="container py-2">
+      <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
+    
+        <!-- Instagram Kartı -->
+        {% for card in agents_cards %}
+        {% if card.pk == 1 %}
+        <div class="col">
+          <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+          
+            <!-- Fiyat Etiketi -->
+            <div class="position-absolute top-0 end-0 m-3">
+              <span class="bg-gradient px-3 py-2 rounded-3 fw-semibold text-white shadow-sm" style="background: linear-gradient(135deg, #00c6ff, #0072ff); font-size: 0.9rem;">
+                {{ card.package_price }}
+              </span>
+            </div>
+        
+            <div class="d-flex justify-content-center align-items-center" style="height: 200px; background: linear-gradient(135deg, #feda75, #d62976, #962fbf);">
+              <i class="bi bi-instagram text-white" style="font-size: 3rem;"></i>
+            </div>
+            <div class="card-body d-flex flex-column justify-content-between">
+              <div>
+                <h5 class="card-title fw-semibold">{{ card.package_name }}</h5>
+                <p class="card-text text-muted small">{{ card.package_content }}</p>
+              </div>
+              <div class="d-flex justify-content-between align-items-center mt-3">
+                <div class="d-flex align-items-center gap-2">
+                  <i class="bi bi-instagram text-danger fs-5"></i>
+                  <span class="text-muted small">Instagram</span>{{ card.pk }}
+                </div>
+                <a href="{% url 'asistan:agents_detail' card.pk %}" class="btn btn-outline-instagram btn-sm rounded-pill px-3 fw-semibold w-50">
+                  <i class="bi bi-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+
+        <style>
+          .btn-outline-instagram {
+            color: #d62976;
+            border: 1px solid #d62976;
+          }
+        
+          .btn-outline-instagram:hover {
+            background-color: #d62976;
+            color: white;
+          }
+        </style>
+        
+        <!-- YouTube Kartı -->
+        {% for card in agents_cards %}
+        {% if card.pk == 3 %}
+    <div class="col">
+  <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+    
+    <!-- Fiyat Etiketi -->
+    <div class="position-absolute top-0 end-0 m-3">
+      <span class="bg-danger text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;">
+        {{ card.package_price }}
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px; background-color: #FF0000;">
+      <i class="bi bi-youtube text-white" style="font-size: 3rem;"></i>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title fw-semibold">{{ card.package_name }}</h5>
+        <p class="card-text text-muted small">{{ card.package_content }}</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-youtube text-danger fs-5"></i>
+          <span class="text-muted small">YouTube</span>{{ card.pk }}
+        </div>
+        <a href="{% url 'asistan:agents_detail' card.pk  %}" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold w-50">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+<!-- YouTube Shorts Kartı -->
+{% for card in agents_cards %}
+{% if card.pk == 4 %}
+<div class="col">
+  <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+    
+    <!-- Fiyat Etiketi -->
+    <div class="position-absolute top-0 end-0 m-3">
+      <span class="bg-danger text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;">
+        {{ card.package_price }}
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px; background-color: #FF0000;">
+     
+      <span class="text-white position-absolute" style="font-size: 1.5rem; font-weight: bold;">Shorts</span>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title fw-semibold">{{ card.package_name }}</h5>
+        <p class="card-text text-muted small">{{ card.package_content }}</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-youtube text-danger fs-5"></i>
+          <span class="text-muted small">YouTube Shorts</span>{{ card.pk }}
+        </div>
+        <a href="{% url 'asistan:agents_detail' card.pk%}" class="btn btn-outline-danger btn-sm rounded-pill px-3 fw-semibold w-50">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endfor %}
+
+
+{% for card in agents_cards %}
+{% if card.pk == 2 %}
+  <!-- WhatsApp Kartı -->
+  <div class="col">
+    <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+      
+      <!-- Fiyat Etiketi -->
+      <div class="position-absolute top-0 end-0 m-3">
+        <span class="bg-success text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;">
+          {{ card.package_price }}
+        </span>
+      </div>
+  
+      <div class="d-flex justify-content-center align-items-center" style="height: 200px; background-color: #25D366;">
+        <i class="bi bi-whatsapp text-white" style="font-size: 3rem;"></i>
+      </div>
+      <div class="card-body d-flex flex-column justify-content-between">
+        <div>
+          <h5 class="card-title fw-semibold">{{ card.package_name }}</h5>
+          <p class="card-text text-muted small">{{ card.package_content }}</p>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mt-3">
+          <div class="d-flex align-items-center gap-2">
+            <i class="bi bi-whatsapp text-success fs-5"></i>
+            <span class="text-muted small">WhatsApp</span>{{ card.pk }}
+          </div>
+          <a href="{% url 'asistan:agents_detail' card.pk %}" class="btn btn-outline-success btn-sm rounded-pill px-3 fw-semibold w-50">
+            <i class="bi bi-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+{% endfor %}
+
+  <!-- X (Twitter) Kartı -->
+<div class="col">
+  <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+    
+    <!-- Fiyat Etiketi -->
+    <div class="position-absolute top-0 end-0 m-3">
+      <span class="bg-dark text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;">
+        139₺
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px; background-color: #000000;">
+      <i class="bi bi-twitter-x text-white" style="font-size: 3rem;"></i>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title fw-semibold">X İçerik Planlayıcı</h5>
+        <p class="card-text text-muted small">Gönderilerinizi planlayın, gündemi kaçırmayın.</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-twitter-x text-dark fs-5"></i>
+          <span class="text-muted small">(Twitter)</span>
+        </div>
+        <a href="{% url "asistan:x_twitter" %}" class="btn btn-outline-dark btn-sm rounded-pill px-3 fw-semibold w-50">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+     
+       <!-- LinkedIn Kartı -->
+<div class="col">
+  <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+
+    <!-- Fiyat Etiketi -->
+    <div class="position-absolute top-0 end-0 m-3">
+      <span class="text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;background-color: #0077B5;">
+        129₺
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px; background-color: #0077B5;">
+      <i class="bi bi-linkedin text-white" style="font-size: 3rem;"></i>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title fw-semibold">LinkedIn Post Zamanlama</h5>
+        <p class="card-text text-muted small">Profesyonel gönderilerinizi önceden planlayın.</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-linkedin text-primary fs-5"></i>
+          <span class="text-muted small">LinkedIn</span>
+        </div>
+        <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold w-50">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <!-- TikTok Kartı -->
+<div class="col">
+  <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+
+    <!-- Fiyat Etiketi -->
+    <div class="position-absolute top-0 end-0 m-3">
+      <span class="bg-dark text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;">
+        149₺
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px; background: linear-gradient(to right, #000000, #434343);">
+      <i class="bi bi-tiktok text-white" style="font-size: 3rem;"></i>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title fw-semibold">TikTok Video Planlayıcı</h5>
+        <p class="card-text text-muted small">Viral içeriklerinizi doğru zamanda paylaşın.</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-tiktok text-dark fs-5"></i>
+          <span class="text-muted small">TikTok</span>
+        </div>
+        <a href="#" class="btn btn-outline-dark btn-sm rounded-pill px-3 fw-semibold w-50">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Mail Pazarlama Otomasyonu Kartı -->
+<div class="col">
+  <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+
+    <!-- Fiyat Etiketi -->
+    <div class="position-absolute top-0 end-0 m-3">
+      <span class="text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;background-color: #6f42c1;">
+        199₺
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px; background-color: #6f42c1;">
+      <i class="bi bi-envelope-paper-fill text-white" style="font-size: 3rem;"></i>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title fw-semibold">Mail Pazarlama Otomasyonu</h5>
+        <p class="card-text text-muted small">Zamanlı e-posta kampanyalarıyla dönüşüm oranını artır.</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-envelope-paper-fill text-dark fs-5"></i>
+          <span class="text-muted small">Mail</span>
+        </div>
+        <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold w-50">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Sosyal Medya Hashtag Takip Otomasyonu -->
+<div class="col">
+  <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+
+    <!-- Fiyat Etiketi -->
+    <div class="position-absolute top-0 end-0 m-3">
+      <span class="bg-warning text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;">
+        99₺
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px; background-color: #F7B500;">
+      <i class="bi bi-hash text-white" style="font-size: 3rem;"></i>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title fw-semibold">Sosyal Medya Hashtag Takip Otomasyonu</h5>
+        <p class="card-text text-muted small">Hashtaglerinizi takip edin ve analiz raporları alın.</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-hash text-info fs-5"></i>
+          <span class="text-muted small">Hashtag Takibi</span>
+        </div>
+        <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold w-50">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Oyun Kartı -->
+<div class="col">
+  <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+
+    <!-- Fiyat Etiketi -->
+    <div class="position-absolute top-0 end-0 m-3">
+      <span class="text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;background-color: #5e17eb;">
+        99₺
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px; background-color: #5e17eb;">
+      <i class="bi bi-controller text-white" style="font-size: 3rem;"></i>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title fw-semibold">Eğlenceli Oyunlar</h5>
+        <p class="card-text text-muted small">Zamana karşı yarışın, arkadaşlarınızla yarışın!</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-controller text-dark fs-5"></i>
+          <span class="text-muted small">Oyun</span>
+        </div>
+        <a href="{% url 'asistan:agents_game' %}" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold w-50">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Google Takvim Etkinlik Otomasyonu Kartı -->
+<div class="col">
+  <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+
+    <!-- Fiyat Etiketi -->
+    <div class="position-absolute top-0 end-0 m-3">
+      <span class="bg-bg-success text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;">
+        149₺
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px; background-color: #34A853;">
+      <i class="bi bi-calendar-event-fill text-white" style="font-size: 3rem;"></i>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title fw-semibold">Google Takvim Etkinlik Otomasyonu</h5>
+        <p class="card-text text-muted small">Toplantılarınızı ve etkinliklerinizi otomatik olarak oluşturun ve yönetin.</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-calendar-event-fill text-dark fs-5"></i>
+          <span class="text-muted small">Google Takvim</span>
+        </div>
+        <a href="#" class="btn btn-outline-primary btn-sm rounded-pill px-3 fw-semibold w-50">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Finansal Hesap Raporlama Otomasyonu -->
+<div class="col">
+  <div class="card h-100 border-0 shadow rounded-4 overflow-hidden position-relative">
+
+    <!-- Fiyat Etiketi -->
+    <div class="position-absolute top-0 end-0 m-3">
+      <span class="text-white px-3 py-2 rounded-3 fw-semibold shadow-sm" style="font-size: 0.9rem;background-color: #6F42C1;">
+        149₺
+      </span>
+    </div>
+
+    <div class="d-flex justify-content-center align-items-center" style="height: 200px; background-color: #6F42C1;">
+      <i class="bi bi-file-earmark-bar-graph text-white" style="font-size: 3rem;"></i>
+    </div>
+    <div class="card-body d-flex flex-column justify-content-between">
+      <div>
+        <h5 class="card-title fw-semibold">Finansal Hesap Raporlama Otomasyonu</h5>
+        <p class="card-text text-muted small">Gelir-gider analizlerinizi ve finansal raporlarınızı otomatik olarak alın.</p>
+      </div>
+      <div class="d-flex justify-content-between align-items-center mt-3">
+        <div class="d-flex align-items-center gap-2">
+          <i class="bi bi-file-earmark-bar-graph text-primary fs-5"></i>
+          <span class="text-muted small">Finansal Raporlar</span>
+        </div>
+        <a href="#" class="btn btn-outline-success btn-sm rounded-pill px-3 fw-semibold w-50">
+          <i class="bi bi-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </div>
+    
+
+
+
+    {% include 'components/footer.html' %}
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,550 @@
+{% load static %}
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ATXAISOFT.COM</title>
+    <meta name="csrf-token" content="{{ csrf_token }}">
+    <link rel="icon" type="image/x-icon" href="{% static 'atxaisoft/ai24.png' %}">
+    <script src="https://code.responsivevoice.org/responsivevoice.js?key=dMVIIAvc"></script>
+    {% comment %} <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"> {% endcomment %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+
+    <style>
+      .custom-nav-link {
+        color: #333;
+        font-size: 1.2rem;
+      }
+    
+      .custom-nav-link:hover {
+        color: black;
+      }
+    
+      .custom-nav-link i {
+        font-size: 1.1rem;
+      }
+
+    </style>
+    
+    <ul class="nav justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link custom-nav-link" href="#" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" aria-label="Sohbet" title="Sohbet">
+          <i class="bi bi-chat-square-quote-fill"></i>
+          <span class="d-none d-md-inline">GEÇMİŞ</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link custom-nav-link" href="#" aria-label="Yeni Not" title="Yeni Not">
+          <i class="bi bi-chat-square-fill"></i>
+          <span class="d-none d-md-inline">YENİ SOHBET</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link custom-nav-link" href="{% url "atxaisoft:index" %}" aria-label="Ana Sayfa" title="Ana Sayfa">
+          <i class="bi bi-house-door-fill"></i>
+          <span class="d-none d-md-inline">ANASAYFA</span>
+        </a>
+      </li>
+    </ul>
+    
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Sohbet Paneli</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Kapat"></button>
+      </div>
+      <div class="offcanvas-body">
+        <div class="row">
+          <div class="col-md-12  mb-4 mb-md-0 col">
+            <div class="p-3">
+              <div class="input-group rounded mb-3">
+                <input type="search" class="form-control rounded" placeholder="Geçmişte ara" aria-label="Search"
+                  aria-describedby="search-addon" />
+                <span class="input-group-text border-0" id="search-addon">
+                  <i class="fas fa-search"></i>
+                </span>
+              </div>
+              <div style="position: relative; height: 700px; overflow-y: auto;">
+                <ul class="list-unstyled mb-0">
+                  <li class="p-2 border-bottom">
+                    <a href="#!" class="d-flex justify-content-between">
+                      <div class="d-flex flex-row">
+                        <div>
+
+                          <span class="badge bg-success badge-dot"></span>
+                        </div>
+                        <div class="pt-1">
+                          <p class="fw-bold mb-0">Mesaj Başlığı</p>
+                        </div>
+                      </div>
+                      <div class="pt-1">
+                        <p class="small text-muted mb-1">4 gün önce</p>
+                      </div>
+                    </a>
+                  </li>
+                  <li class="p-2 border-bottom">
+                    <a href="#!" class="d-flex justify-content-between">
+                      <div class="d-flex flex-row">
+                        <div>
+
+                          <span class="badge bg-success badge-dot"></span>
+                        </div>
+                        <div class="pt-1">
+                          <p class="fw-bold mb-0">Mesaj Başlığı</p>
+                        </div>
+                      </div>
+                      <div class="pt-1">
+                        <p class="small text-muted mb-1">4 gün önce</p>
+                      </div>
+                    </a>
+                  </li>
+                  <li class="p-2 border-bottom">
+                    <a href="#!" class="d-flex justify-content-between">
+                      <div class="d-flex flex-row">
+                        <div>
+
+                          <span class="badge bg-success badge-dot"></span>
+                        </div>
+                        <div class="pt-1">
+                          <p class="fw-bold mb-0">Mesaj Başlığı</p>
+                        </div>
+                      </div>
+                      <div class="pt-1">
+                        <p class="small text-muted mb-1">4 gün önce</p>
+                      </div>
+                    </a>
+                  </li>
+                  <li class="p-2 border-bottom">
+                    <a href="#!" class="d-flex justify-content-between">
+                      <div class="d-flex flex-row">
+                        <div>
+
+                          <span class="badge bg-success badge-dot"></span>
+                        </div>
+                        <div class="pt-1">
+                          <p class="fw-bold mb-0">Mesaj Başlığı</p>
+                        </div>
+                      </div>
+                      <div class="pt-1">
+                        <p class="small text-muted mb-1">4 gün önce</p>
+                      </div>
+                    </a>
+                  </li>
+                  <li class="p-2 border-bottom">
+                    <a href="#!" class="d-flex justify-content-between">
+                      <div class="d-flex flex-row">
+                        <div>
+
+                          <span class="badge bg-success badge-dot"></span>
+                        </div>
+                        <div class="pt-1">
+                          <p class="fw-bold mb-0">Mesaj Başlığı</p>
+                        </div>
+                      </div>
+                      <div class="pt-1">
+                        <p class="small text-muted mb-1">4 gün önce</p>
+                      </div>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+    </div>
+    
+    <div class="container">
+      <div class="card border-0" id="chat3">
+          <div class="card-body">
+              <div class="row">
+                  <div class="col-md-12">
+                    <div class="pt-3 pe-3" id="messages" style="position: relative; height: 400px; overflow-y: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+                      <!-- AI Yanıtları -->
+                      <div class="d-flex flex-row justify-content-start align-items-center mb-3">
+                          <i class="bi bi-robot me-2" style="font-size: 1.5rem;"></i>
+                          <div class="message-bubble bg-light text-dark rounded-3 p-3 shadow-sm">
+                              <p class="m-0">Merhaba...</p>
+                          </div>
+                      </div>
+                  
+                      <!-- Kullanıcı Yanıtları
+                      <div class="d-flex flex-row justify-content-end align-items-center mb-3">
+                          <i class="bi bi-person-circle ms-2" style="font-size: 1.5rem;"></i>
+                          <div class="message-bubble bg-primary text-white rounded-3 p-3 shadow-lg">
+                              <p class="m-0">Bugünün hava durumu nasıl?</p>
+                          </div>
+                      </div>
+                    -->
+                  </div>
+                  
+                  
+                  <form method="post" id="AiForm">
+                    {% csrf_token %}
+                  <div class="d-flex align-items-center pe-3 pt-3 mt-2">
+                    <div class="position-relative w-100">
+                        <!-- Görsel önizleme alanı -->
+                        <div id="imagePreviewContainer" class="mb-3" style="max-width: 10%; overflow: hidden;  margin: 0 auto;">
+                          <img id="imagePreview" src="" style="width: 40%; max-height: 20px; object-fit: cover;">
+                      </div>
+
+
+                      <!-- Dosya Önizleme Alanı -->
+                        <!-- Yüklenen dosyanın adı görüntülenecek alan -->
+                        <div id="filePreviewContainer" class="mb-3" style="max-width: 10%; overflow: hidden;  margin: 0 auto;">
+                          <img id="fileNameDisplay" src="" style="width: 40%; max-height: 20px; object-fit: cover;">
+                      </div>
+
+
+                        <textarea class="form-control form-control-lg ps-4 pe-5 pb-5" name="exampleFormControlTextarea" id="exampleFormControlTextarea"
+                                  placeholder="Bir mesaj yaz..." 
+                                  style="height: 120px; padding-right: 160px; border-radius: 30px; resize: none;"></textarea>
+                
+                        <!-- Butonları textarea içine hizalama -->
+                        <div class="position-absolute bottom-0 start-50 translate-middle-x d-flex align-items-center gap-2 pb-2">
+                            <div class="btn-group dropup">
+                                <button type="button" class="p-2 rounded-circle d-flex align-items-center justify-content-center"
+                                        style="width: 40px; height: 40px; background: black; transition: 0.3s; outline: none; box-shadow: none;"
+                                        data-bs-toggle="dropdown" aria-expanded="false"
+                                        onmouseover="this.style.background='rgb(30,30,30)'; this.style.transform='scale(1.1)';"
+                                        onmouseout="this.style.background='black'; this.style.transform='scale(1)';">
+                                    <i class="bi bi-paperclip fs-5 text-white"></i>
+                                </button>
+                
+                                <ul class="dropdown-menu shadow-sm border-0 rounded-3 overflow-hidden">
+                                    <li>
+                                        <label class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 text-primary rounded-2" for="imageUpload" style="cursor: pointer;">
+                                            <i class="bi bi-image fs-5 text-primary"></i> Resim Yükle
+                                        </label>
+                                        <input type="file" id="imageUpload" name="imageUpload" accept="image/*" class="d-none">
+                                    </li>
+                                    <li>
+                                        <label class="dropdown-item d-flex align-items-center gap-2 py-2 px-3 text-success rounded-2" for="fileUpload" style="cursor: pointer;">
+                                            <i class="bi bi-file-earmark-text fs-5 text-success"></i> Belge Yükle
+                                        </label>
+                                        <input type="file" id="fileUpload" name="fileUpload" accept=".pdf,.doc,.docx,.txt" class="d-none">
+                                    </li>
+                                </ul>
+                            </div>
+                            <button id="btnToggle" type="button" class="text-muted p-2 rounded-circle d-flex align-items-center justify-content-center"
+                            style="width: 40px; height: 40px; background: red; transition: 0.3s; outline: none; box-shadow: none;"
+                            onmouseover="this.style.background='darkred'; this.style.transform='scale(1.1)';"
+                            onmouseout="this.style.background='red'; this.style.transform='scale(1)';">
+                      <i class="bi bi-mic fs-5 text-white"></i>
+                    </button>
+
+                            <button type="submit" id="sendBtn" class="p-2 rounded-circle d-flex align-items-center justify-content-center text-white"
+                                    style="width: 42px; height: 42px; background: #0d6efd; transition: 0.3s; outline: none; box-shadow: none;"
+                                    onmouseover="this.style.background='#0b5ed7'; this.style.transform='scale(1.1)';"
+                                    onmouseout="this.style.background='#0d6efd'; this.style.transform='scale(1)';">
+                                <i class="bi bi-send fs-5"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+              </form>
+
+
+                
+                <div class="audio-container p-2" style="display: none;">
+                  <audio id="audioPlayer" style="display: none;" class="w-100 border-0" controls></audio>
+              </div>
+          </div>
+      </div>
+  </div>
+  </div>
+
+
+
+  
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  
+  <script src="https://code.responsivevoice.org/responsivevoice.js?key=dMVIIAvc"></script>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const output = document.getElementById("output");
+      const btnToggle = document.getElementById("btnToggle");
+      const AiForm = document.getElementById("AiForm");
+      const messageContainer = $("#messages");
+  
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+          alert("Tarayıcınız Web Speech API'yi desteklemiyor!");
+          return;
+      }
+  
+      const recognition = new SpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = false;
+      recognition.lang = "tr-TR";
+  
+      let isListening = false;
+      let isSpeaking = false;
+  
+      function addMessage(sender, message, isListening = false) {
+          let messageHtml = "";
+  
+          if (sender === "user") {
+              messageHtml = `
+                  <div class="d-flex flex-row justify-content-end align-items-center mb-3">
+                      <i class="bi bi-person-circle ms-2" style="font-size: 1.5rem;"></i>
+                      <div class="message-bubble bg-primary text-white rounded-3 p-3 shadow-lg">
+                          <p class="m-0">${message}</p>
+                      </div>
+                  </div>
+              `;
+          } else {
+              let status = isListening ? "<em>Dinleniyor...</em>" : message;
+              messageHtml = `
+                  <div class="d-flex flex-row justify-content-start align-items-center mb-3">
+                      <i class="bi bi-robot me-2" style="font-size: 1.5rem;"></i>
+                      <div class="message-bubble bg-light text-dark rounded-3 p-3 shadow-sm">
+                          <p class="m-0">${status}</p>
+                      </div>
+                  </div>
+              `;
+          }
+          messageContainer.append(messageHtml);
+          messageContainer.scrollTop(messageContainer[0].scrollHeight);
+      }
+  
+      btnToggle.addEventListener("click", function () {
+          if (!isListening && !isSpeaking) {
+              recognition.start();
+              isListening = true;
+              addMessage("bot", "", true);
+              btnToggle.style.background = "green";
+              btnToggle.querySelector("i").className = "bi bi-x-lg text-white";
+          } else {
+              recognition.stop();
+              isListening = false;
+              addMessage("bot", "Dinleme durduruldu.");
+              btnToggle.style.background = "red";
+              btnToggle.querySelector("i").className = "bi bi-mic fs-5 text-white";
+          }
+      });
+  
+      recognition.onresult = (event) => {
+          let transcript = event.results[event.results.length - 1][0].transcript.trim();
+          addMessage("user", transcript);
+          if (transcript.length > 0) {
+              sendToAI(transcript);
+          }
+      };
+  
+      recognition.onerror = (event) => {
+          console.error("Hata:", event.error);
+          addMessage("bot", `Hata: ${event.error}`);
+      };
+  
+      function sendToAI(user_text) {
+          fetch("{% url 'asistan:process2' %}", {
+              method: "POST",
+              headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  "X-CSRFToken": getCSRFToken(),
+              },
+              body: new URLSearchParams({ exampleFormControlTextarea: user_text }),
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.ai_result) {
+                  let aiText = sanitizeText(data.ai_result);
+                  addMessage("bot", aiText);
+                  speakRealTime(aiText);
+              } else {
+                  addMessage("bot", `Hata: ${sanitizeText(data.error)}`);
+              }
+          })
+          .catch(error => {
+              console.error("API hatası:", error);
+              addMessage("bot", "API hatası oluştu.");
+          });
+      }
+  
+      function getCSRFToken() {
+          return document.cookie.split('; ')
+              .find(row => row.startsWith('csrftoken='))
+              ?.split('=')[1] || '';
+      }
+  
+      function sanitizeText(text) {
+          return text.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+      }
+  
+      function speakRealTime(text) {
+          if (isListening) {
+              recognition.stop();
+              isListening = false;
+          }
+  
+          isSpeaking = true;
+          let sentences = text.split(/[.!?]/).filter(s => s.trim().length > 0);
+  
+          function speakNext(index) {
+              if (index < sentences.length) {
+                  let sentence = sentences[index].trim();
+                  responsiveVoice.speak(sentence, "Turkish Female", {
+                      onend: function () {
+                          speakNext(index + 1);
+                      }
+                  });
+              } else {
+                  isSpeaking = false;
+                  recognition.start();
+                  isListening = true;
+                  addMessage("bot", "", true);
+              }
+          }
+          speakNext(0);
+      }
+  
+      AiForm.addEventListener("submit", function (event) {
+          event.preventDefault();
+          const userText = document.getElementById("exampleFormControlTextarea").value.trim();
+          if (userText) {
+              sendToAI(userText);
+          }
+      });
+  });
+  
+  </script>
+  
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $("#sendBtn").click(function (event) {
+          event.preventDefault(); // Formun varsayılan submit işlemini engelle
+          
+          var userText = $("#exampleFormControlTextarea").val().trim();
+          var imageFile = $("#imageUpload")[0].files[0];
+          var documentFile = $("#fileUpload")[0].files[0];
+  
+          if (!userText && !imageFile && !documentFile) {
+              alert("Lütfen bir mesaj veya dosya ekleyin!");
+              return;
+          }
+  
+          var formData = new FormData();
+          formData.append("exampleFormControlTextarea", userText);
+          formData.append("csrfmiddlewaretoken", $("input[name=csrfmiddlewaretoken]").val());
+  
+          if (imageFile) formData.append("imageUpload", imageFile);
+          if (documentFile) formData.append("fileUpload", documentFile);
+  
+          // Kullanıcı mesajını ekrana ekle
+          addMessage("user", userText, imageFile, documentFile);
+  
+          // AJAX isteği gönder
+          $.ajax({
+              url: "{% url 'asistan:process' %}",
+              type: "POST",
+              data: formData,
+              processData: false,
+              contentType: false,
+              success: function (response) {
+                  addMessage("ai", response.ai_result || "Yanıt alınamadı!");
+              },
+              error: function () {
+                  addMessage("ai", "Bir hata oluştu. Lütfen tekrar deneyin.");
+              }
+          });
+  
+          // Formu sıfırla ve önizlemeleri kaldır
+          $("#exampleFormControlTextarea").val("");
+          $("#imageUpload, #fileUpload").val("");
+          $("#imagePreviewContainer, #filePreviewContainer").hide().html("");
+      });
+  
+      function addMessage(sender, message, imageFile = null, documentFile = null) {
+          var messageContainer = $("#messages");
+          var messageHtml = "";
+  
+          if (sender === "user") {
+              messageHtml = `
+                  <div class="d-flex flex-row justify-content-end align-items-center mb-3">
+                      <i class="bi bi-person-circle ms-2" style="font-size: 1.5rem;"></i>
+                      <div class="message-bubble bg-primary text-white rounded-3 p-3 shadow-lg">
+                          <p class="m-0">${message}</p>
+                          ${imageFile ? `<img src="${URL.createObjectURL(imageFile)}" class="img-fluid rounded mt-2" style="max-width: 150px;">` : ""}
+                          ${documentFile ? `<p class="m-0 mt-2"><a href="#" class="text-white">${documentFile.name}</a></p>` : ""}
+                      </div>
+                  </div>
+              `;
+          } else {
+              messageHtml = `
+                  <div class="d-flex flex-row justify-content-start align-items-center mb-3">
+                      <i class="bi bi-robot me-2" style="font-size: 1.5rem;"></i>
+                      <div class="message-bubble bg-light text-dark rounded-3 p-3 shadow-sm">
+                          <p class="m-0">${message}</p>
+                      </div>
+                  </div>
+              `;
+          }
+  
+          messageContainer.append(messageHtml);
+          messageContainer.scrollTop(messageContainer[0].scrollHeight);
+      }
+  
+      $("#imageUpload").change(function () {
+          var file = this.files[0];
+          if (file) {
+              var reader = new FileReader();
+              reader.onload = function (e) {
+                  $("#imagePreview").attr("src", e.target.result);
+                  $("#imagePreviewContainer").show();
+              };
+              reader.readAsDataURL(file);
+          }
+      });
+  
+      $("#fileUpload").change(function () {
+          var file = this.files[0];
+          if (file) {
+              var fileType = file.type;
+              var fileName = file.name;
+              var icon = '<i class="bi bi-file-earmark-text fs-4 text-success"></i>'; // Varsayılan ikon
+  
+              if (fileType.includes("pdf")) {
+                  icon = '<i class="bi bi-file-earmark-pdf fs-4 text-danger"></i>';
+              } else if (fileType.includes("word")) {
+                  icon = '<i class="bi bi-file-earmark-word fs-4 text-primary"></i>';
+              } else if (fileType.includes("text")) {
+                  icon = '<i class="bi bi-file-earmark fs-4 text-secondary"></i>';
+              }
+  
+              $("#filePreviewContainer").html(`
+                  <div class="d-flex align-items-center gap-2 border rounded p-2 shadow-sm">
+                      ${icon}
+                      <span class="small text-truncate" style="width: 250px;">${fileName}</span>
+                      <button class="btn-close btn-sm" onclick="removeFilePreview()"></button>
+                  </div>
+              `).show();
+          }
+      });
+  
+      function removeFilePreview() {
+          $("#fileUpload").val("");
+          $("#filePreviewContainer").hide().html("");
+      }
+  });
+  
+  </script>
+  
+  
+
+    {% comment %} {% include 'components/footer.html' %} {% endcomment %}
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  </body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modern Sohbet Uygulaması</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+</head>
+<style>
+    .chat-bubble--left { background-color: #2D3748; color: white; border-radius: 12px; }
+    .chat-bubble--right { background-color: #4299E1; color: white; border-radius: 12px; }
+    .friend-drawer--onhover:hover { background-color: #1A202C; }
+    .offcanvas { position: fixed; top: 0; bottom: 0; left: -300px; width: 300px; background-color: #171923; transition: left 0.3s ease-in-out; z-index: 1000; color: white; }
+    .offcanvas.open { left: 0; }
+    .offcanvas-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 999; display: none; }
+    .offcanvas-overlay.open { display: block; }
+    @media (min-width: 768px) {
+        .offcanvas { position: static; width: 300px; left: 0; transition: none; }
+        .offcanvas-overlay { display: none !important; }
+        .mobile-only { display: none; }
+        .desktop-only { display: block;}
+    }
+    @media (max-width: 767px) {
+        .mobile-only { display: block; }
+        .desktop-only { display: none; }
+    }
+</style>
+<style>
+    /* Scrollbar Stilleri */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+    }
+  
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+  
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #c4c4c4;
+      border-radius: 10px;
+      transition: background 0.3s;
+    }
+  
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #a0a0a0;
+    }
+  </style>
+<body class="bg-gray-900 text-gray-100">
+    <div class="flex h-screen">
+        <button id="toggle-offcanvas" class="mobile-only fixed top-2 left-4 z-20 bg-gray-800 text-white p-2 rounded-md">
+            <i class="material-icons">menu</i>
+        </button>
+        <aside id="offcanvas" class="offcanvas">
+            <div class="p-4 flex items-center justify-between">
+                <img class="w-10 h-10 rounded-full" src="https://img.freepik.com/free-vector/user-blue-gradient_78370-4692.jpg" alt="Profile img">
+                <div class="flex space-x-2">
+                    <i class="material-icons cursor-pointer">cached</i>
+                    <i class="material-icons cursor-pointer">message</i>
+                    <i class="material-icons cursor-pointer">menu</i>
+                </div>
+            </div>
+            <div class="p-4">
+                <div class="relative">
+                    <i class="material-icons absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500">search</i>
+                    <input type="text" placeholder="Ara" class="w-full p-2 pl-10 rounded-lg bg-gray-800 text-white focus:outline-none">
+                </div>
+            </div>
+              <div class="flex-1 overflow-y-auto max-h-[75vh] custom-scrollbar">
+                  <div class="friend-drawer friend-drawer--onhover p-4 flex items-center cursor-pointer rounded-lg">
+                      <img class="w-10 h-10 rounded-full mr-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhEcQdDA1SvEYgEVNTt6Pf9lrugfCZWFCKNxE7s10BKHypx0EdDBBNAq9TomFMttF0gDA&usqp=CAU" alt="">
+                      <div class="flex-1">
+                          <h6 class="font-semibold">Cihan İlkılıç</h6>
+                          <p class="text-sm text-gray-400">Yasalara uygun...</p>
+                      </div>
+                      <span class="text-xs text-gray-400">13:21</span>
+                  </div>
+                  <div class="friend-drawer friend-drawer--onhover p-4 flex items-center cursor-pointer rounded-lg">
+                    <img class="w-10 h-10 rounded-full mr-3" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQhEcQdDA1SvEYgEVNTt6Pf9lrugfCZWFCKNxE7s10BKHypx0EdDBBNAq9TomFMttF0gDA&usqp=CAU" alt="">
+                    <div class="flex-1">
+                        <h6 class="font-semibold">Cihan İlkılıç</h6>
+                        <p class="text-sm text-gray-400">Yasalara uygun...</p>
+                    </div>
+                    <span class="text-xs text-gray-400">13:21</span>
+                </div>
+
+
+
+              </div>
+              
+            
+        </aside>
+        <div id="offcanvas-overlay" class="offcanvas-overlay"></div>
+        <main class="flex-1 flex flex-col">
+            <div class="p-4 flex items-center justify-center bg-gray-800">
+                <div class="flex space-x-2">
+                    <i class="material-icons cursor-pointer">cached</i>
+                    <i class="material-icons cursor-pointer">message</i>
+                    <i class="material-icons cursor-pointer">menu</i>
+                </div>
+            </div>
+            <div id="messages" class="flex-1 p-4 overflow-y-auto space-y-2">
+                <div class="flex justify-start">
+                    <div class="chat-bubble chat-bubble--left p-3 rounded-xl">Selam dostum!</div>
+                </div>
+                <div class="flex justify-end">
+                    <div class="chat-bubble chat-bubble--right p-3 rounded-xl">Selam dostum!</div>
+                </div>
+                <div class="flex justify-start">
+                    <div class="chat-bubble chat-bubble--left p-3 rounded-xl">Nasılsın?</div>
+                </div>
+            </div>
+            <div class="p-4 bg-gray-800 flex items-center">
+                <button id="recordBtn" class="p-2 bg-red-600 hover:bg-red-700 text-white rounded-lg mr-2" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                    <i class="bi bi-mic"></i>
+                </button>
+                <input type="text" id="textInput" placeholder="Mesaj yaz..." class="w-full p-2 rounded-lg bg-gray-700 text-white focus:outline-none">
+                <button  id="sendBtn" class="ml-2 p-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg btn-send">
+                    <i class="material-icons">send</i>
+                </button>
+                <div class="audio-container p-2" style="display: none;">
+                    <audio id="audioPlayer" controls></audio>
+                </div>
+            </div>
+            
+        </main>
+    </div>
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Understood</button>
+        </div>
+      </div>
+    </div>
+  </div>
+    <script>
+        $(document).ready(function () {
+            function appendMessage(text, sender) {
+                let messageClass = sender === "user" ? "justify-end" : "justify-start";
+                let bubbleClass = sender === "user" ? "chat-bubble--right" : "chat-bubble--left";
+                let message = `<div class='flex ${messageClass}'>
+                                   <div class='chat-bubble ${bubbleClass} p-3 rounded-xl'>${text}</div>
+                               </div>`;
+                $("#messages").append(message);
+                $("#messages").scrollTop($("#messages")[0].scrollHeight);
+            }
+        
+            $("#recordBtn").click(function () {
+                appendMessage("🎙 Dinleniyor...", "ai");
+                $.ajax({
+                    url: "{% url 'asistan:speech_to_text' %}",
+                    method: "GET",
+                    success: function (data) {
+                        if (data.error) {
+                            appendMessage("❌ Hata: " + data.error, "ai");
+                        } else {
+                            appendMessage(data.text, "ai");
+                            if (data.audio) {
+                                var audioSrc = "data:audio/mp3;base64," + data.audio;
+                                $("#audioPlayer").attr("src", audioSrc);
+                                $(".audio-container").show();
+                                $("#audioPlayer")[0].play();
+                            }
+                        }
+                    },
+                    error: function () {
+                        appendMessage("⚠️ Bir hata oluştu.", "ai");
+                    }
+                });
+            });
+        
+            $("#sendBtn").click(function () {
+                var userText = $("#textInput").val().trim();
+                if (userText === "") return;
+                appendMessage(userText, "user");
+                $("#textInput").val("");
+                $.ajax({
+                    url: "{% url 'asistan:speech_to_text' %}",
+                    method: "GET",
+                    data: { input_girdisi: userText },
+                    success: function (data) {
+                        if (data.error) {
+                            appendMessage("❌ Hata: " + data.error, "ai");
+                        } else {
+                            appendMessage(data.text, "ai");
+                        }
+                    },
+                    error: function () {
+                        appendMessage("⚠️ Bir hata oluştu.", "ai");
+                    }
+                });
+            });
+        
+            $("#textInput").keypress(function (event) {
+                if (event.which === 13) {
+                    $("#sendBtn").click();
+                }
+            });
+        
+            $("#toggle-offcanvas").click(function () {
+                $("#offcanvas").toggleClass("open");
+                $("#offcanvas-overlay").toggleClass("visible");
+            });
+        
+            $("#offcanvas-overlay").click(function () {
+                $("#offcanvas").removeClass("open");
+                $("#offcanvas-overlay").removeClass("visible");
+            });
+        });
+        
+
+
+
+
+        const toggleOffcanvasButton = document.getElementById('toggle-offcanvas');
+        const offcanvas = document.getElementById('offcanvas');
+        const offcanvasOverlay = document.getElementById('offcanvas-overlay');
+        toggleOffcanvasButton.addEventListener('click', () => {
+            offcanvas.classList.toggle('open');
+            offcanvasOverlay.classList.toggle('open');
+        });
+        offcanvasOverlay.addEventListener('click', () => {
+            offcanvas.classList.remove('open');
+            offcanvasOverlay.classList.remove('open');
+        });
+    </script>
+</body>
+</html>

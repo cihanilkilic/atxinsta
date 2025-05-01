@@ -1,0 +1,143 @@
+
+    <div class="container shadow-sm border-0 rounded-4 bg-light mb-5" >
+        <form class="py-4" id="AgentsForm">
+          <!-- Başlık -->
+          <h5 class="mb-4 text-center fw-bold" style="color: #FF0000;">
+            <i class="bi bi-youtube me-2"></i>Yotube Agent
+          </h5>
+          <!-- Prompt Alanları -->
+          <div class="row g-4 justify-content-center">
+            <div class="col-12 col-md-6">
+              <div class="form-floating shadow-sm">
+                <textarea 
+                  class="form-control rounded-3 w-100" 
+                  placeholder="Sistem prompt giriniz" 
+                  id="SystemPrompt" 
+                  style="height: 160px;"></textarea>
+                <label for="SystemPrompt">Sistem Prompt</label>
+              </div>
+            </div>
+            <div class="col-12 col-md-6">
+              <div class="form-floating shadow-sm">
+                <textarea 
+                  class="form-control rounded-3 w-100" 
+                  placeholder="Kullanıcı prompt giriniz" 
+                  id="UserPrompt" 
+                  style="height: 160px;"></textarea>
+                <label for="UserPrompt">Kullanıcı Prompt</label>
+              </div>
+            </div>
+          </div>
+      
+          <!-- Başlat Butonu -->
+          <div class="row mt-4">
+            <div class="col-12">
+              <button 
+                class="btn w-100 py-3 rounded-3 shadow text-white instagram-btn" 
+                type="submit" 
+                style="background-color: #FF0000; border: none;">
+                <strong>Yotube Agent'ı Başlat</strong>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+      <style>
+        .instagram-btn:hover i {
+          color: white;
+        }
+      </style>
+        <div class="row mt-4 mb-5"> </div>
+   
+
+    <script>
+        document.getElementById("AgentsForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Sayfanın yeniden yüklenmesini engelle
+    
+            let systemPrompt = document.getElementById("SystemPrompt").value;
+            let userPrompt = document.getElementById("UserPrompt").value;
+    
+            // Modal içeriğini al
+            const modalTitle = document.getElementById("exampleModalLabel");
+            const modalBody = document.querySelector("#exampleModal .modal-body");
+    
+            let eksikAlanlar = [];
+    
+            if (systemPrompt.trim() === "") {
+                eksikAlanlar.push("Sistem Promptu");
+            }
+            if (userPrompt.trim() === "") {
+                eksikAlanlar.push("Kullanıcı Promptu");
+            }
+    
+            if (eksikAlanlar.length === 0) {
+                modalTitle.innerText = "Başarılı Giriş";
+                modalBody.innerHTML = '<div class="alert alert-success" role="alert">Form başarıyla gönderildi!</div>';
+    
+                // CSRF token'ını meta tag'den al
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    
+                // AJAX isteği ile backend'e veri gönderme
+                fetch("{% url 'asistan:instagram_agents_start' %}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrfToken // CSRF token'ını gönder
+                    },
+                    body: JSON.stringify({
+                        'SystemPrompt': systemPrompt,
+                        'UserPrompt': userPrompt
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);  // Gelen yanıtı console'a yazdır
+                    // Diğer işlem kodları...
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            } else {
+                modalTitle.innerText = "Hatalı Giriş";
+                let eksikListe = '<ul class="list-group">';
+                eksikAlanlar.forEach(function(alan) {
+                    eksikListe += `<li class="list-group-item list-group-item-danger">${alan}</li>`;
+                });
+                eksikListe += '</ul>';
+    
+                modalBody.innerHTML = 
+                    `<div class="alert alert-danger" role="alert">
+                        Lütfen boş alanları doldurunuz:
+                    </div>` + eksikListe;
+            }
+    
+            // Modalı aç
+            const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+            myModal.show();
+        });
+    </script>
+    
+    <!-- Button trigger modal -->
+
+  
+  <!-- Modal Başlangıç -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header position-relative">
+            <h1 class="modal-title fs-5 text-center w-100" id="exampleModalLabel">Modal Başlığı</h1>
+            <button type="button" class="btn-close position-absolute top-50 end-0 translate-middle-y me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+        <div class="modal-body text-center">
+          ...
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">KAPAT</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal Bitiş -->
+

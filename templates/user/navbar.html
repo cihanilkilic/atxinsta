@@ -1,0 +1,47 @@
+{% load static %}
+<div class="fixed-top custom-navbar">
+    <nav class="container d-flex justify-content-center align-items-center">
+        <!-- Logo ve Yazı (Yan Yana ve Ortalanmış) -->
+        <div class="brand-container">
+            <img src="{% static 'atxaisoft/ai.png' %}" alt="Logo" class="brand-logo">
+            <span class="brand-text">atxaisoft</span>
+        </div>
+    </nav>
+</div>
+
+<!-- Navbar'ın Altına Boşluk Eklemek İçin Boş Bir Div -->
+<div class="navbar-space"></div>
+
+<style>
+    /* Navbar Sabitleme */
+    .custom-navbar {
+        z-index: 1050;
+        height: 60px; /* Navbar yüksekliği */
+        display: flex;
+        align-items: center;
+    }
+
+    /* Navbar'ın Altına Boşluk Eklemek İçin */
+    .navbar-space {
+        height: 25px; /* Navbar'dan sonra 80px boşluk bırakır */
+    }
+
+    /* Logo ve Yazıyı İçeren Kapsayıcı */
+    .brand-container {
+        display: flex;
+        align-items: center;
+    }
+
+    /* Logo Stili */
+    .brand-logo {
+        height: 25px;
+        margin-right: 8px;
+    }
+
+    /* Yazı Stili */
+    .brand-text {
+        font-weight: bold;
+        font-size: 18px;
+        color: #333; /* Yazı rengi */
+    }
+</style>

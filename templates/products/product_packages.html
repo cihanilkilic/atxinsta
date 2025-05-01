@@ -1,0 +1,189 @@
+<section id="price-section" class="py-5">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold display-4">✨ ÖZEL YAPAY ZEKA ASİSTAN PAKETLERİ ✨</h2>
+            <div class="mx-auto" style="width: 120px; height: 6px; background-color: black; border-radius: 3px;"></div>
+        </div>
+        <div class="row justify-content-center pt-5">
+            {% for package in packages %}
+            <div class="col-xl-4 col-lg-5 col-md-6 col-sm-12 pb-4">
+                <div class="pricing-card 
+                    {% if forloop.counter == 1 %}package-basic{% elif forloop.counter == 2 %}package-standard{% else %}package-premium{% endif %}">
+                    <h3>{{ package.package_name }}</h3>
+                    <p class="display-6 fw-bold">{{ package.package_price }} ₺</p>
+
+                    <button type="button" class="btn btn-light package-duration-btn">
+                        Süre: <span class="badge bg-dark">{{ package.package_duration }}</span>
+                    </button>
+
+                    <hr class="my-4">
+                    <div class="pricing-details row text-center">
+                        <div class="col-6 text-start">
+                            {% if package.feature_1 %}<div><i class="bi bi-check-circle text-warning me-2"></i> {{ package.feature_1 }}</div>{% endif %}
+                            {% if package.feature_2 %}<div><i class="bi bi-check-circle text-warning me-2"></i> {{ package.feature_2 }}</div>{% endif %}
+                            {% if package.feature_3 %}<div><i class="bi bi-check-circle text-warning me-2"></i> {{ package.feature_3 }}</div>{% endif %}
+                        </div>
+                        <div class="col-6 text-end">
+                            {% if package.feature_4 %}<div>{{ package.feature_4 }}</div>{% endif %}
+                            {% if package.feature_5 %}<div>{{ package.feature_5 }}</div>{% endif %}
+                            {% if package.feature_6 %}<div>{{ package.feature_6 }}</div>{% endif %}
+                        </div>
+                    </div>
+                    <a href="{% url "product_packages:product_detail" package.pk %}" class="btn btn-warning mt-4">Hemen Satın Al <i class="bi bi-cart-fill"></i></a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+
+
+  <style>
+    /* Paket Kartı Tasarımı */
+    .pricing-card {
+        background: white;
+        border-radius: 12px;
+        padding: 40px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        min-height: 480px;
+    }
+    
+    /* Hover efekti */
+    .pricing-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0px 15px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    /* Paket Adı */
+    .pricing-card h4 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #333;
+    }
+    
+    /* Fiyat Bilgisi */
+    .pricing-card .price {
+        font-size: 2rem;
+        font-weight: 800;
+        color: #007bff;
+        margin: 15px 0;
+    }
+    
+    /* Paket Süresi Butonu */
+    .package-duration-btn {
+        font-size: 1.2rem;
+        font-weight: bold;
+        position: relative;
+        padding: 10px 15px;
+        border-radius: 8px;
+    }
+    
+    /* Süre Rozeti */
+    .package-duration-btn .badge {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+    
+    /* Özellikler Listesi */
+    .pricing-details div {
+        padding: 10px 0;
+        font-weight: 500;
+        font-size: 1.1rem;
+    }
+    
+    /* Satın Alma Butonu */
+    .btn-buy {
+        background: #007bff;
+        color: white;
+        padding: 15px;
+        font-size: 1.3rem;
+        font-weight: bold;
+        border-radius: 8px;
+        width: 100%;
+        transition: all 0.3s;
+    }
+    
+    .btn-buy:hover {
+        background: #0056b3;
+    }
+    
+    /* Mobil Uyumlu Tasarım */
+    @media (max-width: 768px) {
+        .pricing-card {
+            min-height: 450px;
+            padding: 30px;
+        }
+    
+        .pricing-card h4 {
+            font-size: 1.5rem;
+        }
+    
+        .pricing-card .price {
+            font-size: 1.8rem;
+        }
+    
+        .btn-buy {
+            font-size: 1.1rem;
+        }
+    }
+    /* Paket Renkleri */
+    .package-basic {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        border-left: 5px solid #004085;
+    }
+    
+    .package-standard {
+        background: linear-gradient(135deg, #28a745, #1e7e34);
+        color: white;
+        border-left: 5px solid #155724;
+    }
+    
+    .package-premium {
+        background: linear-gradient(135deg, #6f42c1, #4e2683);
+        color: white;
+        border-left: 5px solid #3d1d70;
+    }
+    
+    /* Kart tasarımı */
+    .pricing-card {
+        border-radius: 16px;
+        padding: 45px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        min-height: 500px;
+        font-weight: bold;
+    }
+    
+    /* Hover efekti */
+    .pricing-card:hover {
+        transform: translateY(-12px);
+        box-shadow: 0px 20px 50px rgba(0, 0, 0, 0.4);
+    }
+    
+    /* Butonları daha iddialı hale getirelim */
+    .package-duration-btn {
+        font-size: 1.2rem;
+        padding: 12px 24px;
+        font-weight: bold;
+        border-radius: 10px;
+    }
+    
+    /* Mobil uyum */
+    @media (max-width: 768px) {
+        .pricing-card {
+            min-height: 460px;
+            padding: 35px;
+        }
+    }
+    
+
+  </style>
+  
+  
+  
+  

@@ -1,0 +1,433 @@
+<style>
+    /* Tarih ve saat input ikon renklerini değiştir */
+  input[type="date"], input[type="time"] {
+      color: #495057; /* Burada istediğiniz yazı rengini belirleyebilirsiniz */
+  }
+
+  /* Etiketlerin ikon renklerini değiştirme */
+  input[type="date"]::-webkit-calendar-picker-indicator,
+  input[type="time"]::-webkit-calendar-picker-indicator {
+      filter: invert(31%) sepia(91%) saturate(2475%) hue-rotate(329deg) brightness(98%) contrast(99%);
+      /* #E1306C rengi için gerekli filtreyi ayarladık */
+  }
+
+  </style>
+  <style>
+    .instagram-btn:hover i {
+      color: white;
+    }
+  </style>
+  <div class="container shadow-sm border-0 rounded-4 bg-light mb-5" >
+      <form class="py-4" id="AgentsForm">
+        <!-- Başlık -->
+        <h5 class="mb-4 text-center fw-bold" style="color: #E1306C;">
+          <i class="bi bi-instagram me-2"></i>Instagram Agent
+        </h5>
+        <!-- Prompt Alanları -->
+        <div class="row g-2 justify-content-center ">
+
+          <div class="row g-2">
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="email" class="form-control" id="IgUserId" placeholder="17841473187160452" value="17841473187160452">
+                <label for="IgUserId">Ig User Id</label>
+              </div>
+            </div>
+            <div class="col-md">
+              <div class="form-floating">
+                <input type="email" class="form-control" id="AccessToken" placeholder="EAAJlO7ZAAZDZD" value="EAAJlO7ZAAZDZD">
+                <label for="AccessToken">Access Token</label>
+              </div>
+            </div>
+          </div>
+
+
+
+
+
+
+          <div class="col-12 col-md-6 ">
+            <div class="form-floating shadow-sm rounded-3 ">
+              <textarea 
+                class="form-control rounded-3 w-100" 
+                placeholder="Sistem prompt giriniz" 
+                id="SystemPrompt" 
+                style="height: 160px;"></textarea>
+              <label for="SystemPrompt">Sistem Prompt</label>
+            </div>
+          </div>
+          <div class="col-12 col-md-6">
+            <div class="form-floating shadow-sm rounded-3 ">
+              <textarea 
+                class="form-control rounded-3 w-100" 
+                placeholder="Kullanıcı prompt giriniz" 
+                id="UserPrompt" 
+                style="height: 160px;"></textarea>
+              <label for="UserPrompt">Kullanıcı Prompt</label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Görsel Seçimi -->
+        <div class="row justify-content-center mt-1">
+          <div class="col-12 col-md-12 mb-md-0">
+            <div class="form-floating shadow-sm rounded-3">
+                <span class="input-group-text" id="inputGroupSelect01">
+
+  
+                <input type="file" id="upload" name="images" class="form-control mb-3 " multiple accept="image/*">
+
+              </span>
+               <div class="d-flex overflow-auto gap-3" id="previewArea"></div>
+
+            </div>
+          </div>
+        </div>
+        <!-- Görsel Seçimi Bitiş -->
+
+        <!-- Alarm Seçimi Başlangıç -->
+        <div class="row justify-content-center mt-1">
+          <div class="col-12 col-md-12 mb-1 mb-md-0">
+            <div class="input-group mb-1">
+              <span class="input-group-text" id="inputGroupSelect01">
+                <i class="bi bi-alarm-fill text-danger"></i>
+              </span>
+              <select class="form-select" id="shareTypeSelect" aria-label="Paylaşım Türleri">
+                <option selected disabled>
+                  Instagram'da gönderinizi ne zaman paylaşmak istersiniz? Alarm ile zamanlayın.
+                </option>
+                <option value="alarm_1">
+                  Alarm 1: Her gün seçilen saatte aktif olur. Örneğin, her gün saat 08:30' da paylaşım yapılır.
+                </option>
+                <option value="alarm_2">
+                  Alarm 2: Sadece seçilen gün ve saatte aktif olur, başka zaman çalışmaz.
+                </option>
+                <option value="alarm_3">
+                  Alarm 3: Her gün, belirlenen birden fazla saatte aktif olur. Örneğin, her gün saat 08:00, 12:00 ve 18:00'de aktif olur.
+                </option>
+              </select>
+              <button type="button" id="btnClear2" class="btn btn-warning border-left-0 text-white">
+                Temizle
+              </button>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Alarm Seçimi Bitiş -->
+        
+
+<div class="row justify-content-center">
+<!-- Tarih Seçimi -->
+<div class="col-6 col-md-6 mb-3">
+  <div class="input-group">
+    <input type="date" id="date" class="form-control" placeholder="Tarih seçin" required>
+  </div>
+</div>
+
+<!-- Saat Seçimi -->
+<div class="col-6 col-md-6 mb-3">
+  <div class="input-group">
+    <input type="time" id="timeInput" class="form-control rounded-start-3 ">
+    <button class="btn btn-outline-primary rounded-end-3 px-4" type="button" onclick="addTime()">+</button>
+  </div>
+</div>
+
+<!-- Saat Etiketleri -->
+<!-- Saat Etiketleri -->
+<div class="col-12" style="display: none;">
+<div 
+  id="timeTags" 
+  class="d-flex flex-nowrap overflow-auto gap-2 px-2 py-2 bg-white border rounded-3 shadow-sm"
+  style="min-height: 50px; white-space: nowrap;">
+</div>
+<input type="hidden" id="selectedTimes" name="selectedTimes">
+</div>
+
+
+</div>
+
+        
+
+        <!-- Başlat Butonu -->
+        <div class="row mt-2">
+          <div class="col-12">
+            <button 
+              class="btn w-100 py-3 rounded-3 shadow text-white instagram-btn" 
+              type="submit" 
+              style="background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); border: none;">
+              <strong>Instagram Agent'ı Başlat</strong>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <p id="selectedText" class="text-primary mt-2"></p>
+
+
+    <script>
+      const selectedTimes = [];
+    
+      function addTime() {
+        const timeInput = document.getElementById("timeInput");
+        const timeValue = timeInput.value;
+    
+        if (timeValue && !selectedTimes.includes(timeValue)) {
+          selectedTimes.push(timeValue);
+          updateTimeTags();
+          document.getElementById("selectedTimes").value = JSON.stringify(selectedTimes);
+          timeInput.value = ""; // temizle
+        }
+      }
+    
+      function removeTime(index) {
+        selectedTimes.splice(index, 1);
+        updateTimeTags();
+        document.getElementById("selectedTimes").value = JSON.stringify(selectedTimes);
+      }
+    
+      function updateTimeTags() {
+        const container = document.getElementById("timeTags");
+        container.innerHTML = "";
+      
+        if (selectedTimes.length === 0) {
+          container.parentElement.style.display = "none"; // gizle
+          return;
+        }
+      
+        container.parentElement.style.display = "block"; // göster
+      
+        selectedTimes.forEach((time, index) => {
+          const tag = document.createElement("span");
+          tag.className = "badge rounded-pill bg-danger px-3 py-2 d-inline-flex align-items-center";
+          tag.innerHTML = `
+            ${time}
+            <button type="button" class="btn-close btn-close-white btn-sm ms-2" aria-label="Sil" onclick="removeTime(${index})"></button>
+          `;
+          container.appendChild(tag);
+        });
+      }
+      
+    </script>
+    
+
+    <script>
+      let uploadedFiles = [];
+    
+      document.getElementById('upload').addEventListener('change', function (e) {
+          const preview = document.getElementById('previewArea');
+          const maxFiles = 3;
+          const newFiles = [...e.target.files];
+    
+          if (uploadedFiles.length + newFiles.length > maxFiles) {
+              alert("En fazla 3 resim yükleyebilirsiniz.");
+              return;
+          }
+    
+          newFiles.forEach(file => {
+              const reader = new FileReader();
+              reader.onload = e => {
+                  const card = document.createElement('div');
+                  card.className = 'preview-card card border-0 shadow-sm text-center flex-shrink-0 position-relative';
+                  card.style.width = '160px';
+
+                  card.innerHTML = `
+                    <img src="${e.target.result}" class="card-img-top" style="height: 110px; object-fit: cover;" alt="preview">
+                    <div class="card-body p-2 text-center">
+                      <small class="text-muted text-truncate d-block" title="${file.name}">${file.name}</small>
+                    </div>
+                    <button type="button" class="btn btn-sm btn-outline-danger bg-danger text-white position-absolute top-0 end-0 m-1 rounded-circle" aria-label="Sil">
+                      <i class="bi bi-x-lg"></i>
+                    </button>
+                  `;
+          
+                  card.querySelector('.btn-outline-danger').addEventListener('click', () => {
+                    preview.removeChild(card);
+                    uploadedFiles = uploadedFiles.filter(f => f !== file);
+                  });
+    
+                  preview.appendChild(card);
+              };
+              reader.readAsDataURL(file);
+              uploadedFiles.push(file);
+          });
+    
+          this.value = '';
+      });
+    
+      // Form submit işlemi
+      document.getElementById('imageForm').addEventListener('submit', function (e) {
+          e.preventDefault();
+    
+          if (uploadedFiles.length === 0) {
+              alert("Lütfen en az bir resim seçin.");
+              return;
+          }
+    
+          const formData = new FormData();
+          uploadedFiles.forEach((file, index) => {
+              formData.append('images', file);
+          });
+    
+          const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+    
+          fetch('', {
+              method: 'POST',
+              headers: {
+                  'X-CSRFToken': csrfToken,
+              },
+              body: formData,
+          })
+          .then(response => response.json())
+          .then(data => {
+              if (data.status === 'success') {
+                  alert('Resimler başarıyla yüklendi!');
+                  document.getElementById('previewArea').innerHTML = '';
+                  uploadedFiles = [];
+              } else {
+                  alert(data.message || 'Yükleme sırasında bir hata oluştu.');
+              }
+          })
+          .catch(error => {
+              console.error('Hata:', error);
+              alert('Bir hata oluştu.');
+          });
+      });
+    </script>
+    
+
+
+
+
+
+
+
+    <script>
+      const selectElement = document.getElementById("shareTypeSelect");
+      const outputElement = document.getElementById("selectedText");
+      const clearButton = document.getElementById("btnClear2");
+      
+      selectElement.addEventListener("change", function () {
+        const selectedOptionText = this.options[this.selectedIndex].text;
+        outputElement.innerHTML = "Seçilen paylaşım türü: " + selectedOptionText;
+      });
+      
+      clearButton.addEventListener("click", function () {
+        selectElement.selectedIndex = 0; // İlk (disabled) option'a geri döner
+        outputElement.innerHTML = "";    // Seçim metnini temizler
+      });
+      
+    </script>
+    
+
+      <div class="row mt-4 mb-5"> </div>
+ 
+  <script>
+
+    document.querySelector('#btnClear1').addEventListener('click', function() {
+      document.getElementById('upload').value = '';
+    });
+  </script>
+  
+  <script>
+      document.getElementById("AgentsForm").addEventListener("submit", function(event) {
+          event.preventDefault(); // Sayfanın yeniden yüklenmesini engelle
+  
+          let systemPrompt = document.getElementById("SystemPrompt").value;
+          let userPrompt = document.getElementById("UserPrompt").value;
+  
+          // Modal içeriğini al
+          const modalTitle = document.getElementById("exampleModalLabel");
+          const modalBody = document.querySelector("#exampleModal .modal-body");
+  
+          let eksikAlanlar = [];
+  
+          if (systemPrompt.trim() === "") {
+              eksikAlanlar.push("Sistem Promptu");
+          }
+          if (userPrompt.trim() === "") {
+              eksikAlanlar.push("Kullanıcı Promptu");
+          }
+  
+          if (eksikAlanlar.length === 0) {
+              modalTitle.innerText = "Başarılı Giriş";
+              modalBody.innerHTML = '<div class="alert alert-success" role="alert">Form başarıyla gönderildi!</div>';
+  
+              // CSRF token'ını meta tag'den al
+              const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  
+              // AJAX isteği ile backend'e veri gönderme
+              fetch("{% url 'asistan:instagram_agents_start' %}", {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json',
+                      'X-CSRFToken': csrfToken // CSRF token'ını gönder
+                  },
+                  body: JSON.stringify({
+                      'SystemPrompt': systemPrompt,
+                      'UserPrompt': userPrompt
+                  })
+              })
+              .then(response => response.json())
+              .then(data => {
+                  console.log(data);  // Gelen yanıtı console'a yazdır
+                  // Diğer işlem kodları...
+              })
+              .catch(error => {
+                  console.error('Error:', error);
+              });
+          } else {
+              modalTitle.innerText = "Hatalı Giriş";
+              let eksikListe = '<ul class="list-group">';
+              eksikAlanlar.forEach(function(alan) {
+                  eksikListe += `<li class="list-group-item list-group-item-danger">${alan}</li>`;
+              });
+              eksikListe += '</ul>';
+  
+              modalBody.innerHTML = 
+                  `<div class="alert alert-danger" role="alert">
+                      Lütfen boş alanları doldurunuz:
+                  </div>` + eksikListe;
+          }
+  
+          // Modalı aç
+          const myModal = new bootstrap.Modal(document.getElementById('exampleModal'));
+          myModal.show();
+      });
+
+
+
+
+
+
+      document.addEventListener('DOMContentLoaded', function () {
+        var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'))
+        var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+          return new bootstrap.Popover(popoverTriggerEl)
+        })
+      });
+  </script>
+  
+  <!-- Button trigger modal -->
+
+
+<!-- Modal Başlangıç -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header position-relative">
+          <h1 class="modal-title fs-5 text-center w-100" id="exampleModalLabel">Modal Başlığı</h1>
+          <button type="button" class="btn-close position-absolute top-50 end-0 translate-middle-y me-3" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        
+      <div class="modal-body text-center">
+          <!-- ... -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger w-100" data-bs-dismiss="modal">KAPAT</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Bitiş -->
+
+

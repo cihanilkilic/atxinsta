@@ -1,0 +1,207 @@
+{% load static %}
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ATXAISOFT.COM</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'atxaisoft/ai24.png' %}">
+    {% comment %} <link href="{% static "css/bootstrap.min.css" %}" rel="stylesheet"> {% endcomment %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  </head>
+  <body>
+
+    {% include 'components/navbar.html' %}
+
+    <section  class="container py-5">
+          <div class="row justify-content-center pt-5">
+            <div class="col-md-6 col-sm-12 pb-4">
+              <div class="pricing-card  {% if product.pk == 1 %}package-basic{% elif product.pk == 2 %}package-standard{% else %}package-premium{% endif %}">
+                <h3>{{ product.package_name }}</h3>
+                <p class="display-6 fw-bold">{{ product.package_price }} ₺</p>
+                <button type="button" class="btn btn-light package-duration-btn">
+                  Süre: <span class="badge bg-dark">{{ product.package_duration }}</span>
+                </button>
+                <hr class="my-4">
+                <div class="pricing-details row text-center">
+                  <div class="col-6 text-start">
+                    {% if product.feature_1 %}<div><i class="bi bi-check-circle text-warning me-2"></i> {{ product.feature_1 }}</div>{% endif %}
+                    {% if product.feature_2 %}<div><i class="bi bi-check-circle text-warning me-2"></i> {{ product.feature_2 }}</div>{% endif %}
+                    {% if product.feature_3 %}<div><i class="bi bi-check-circle text-warning me-2"></i> {{ product.feature_3 }}</div>{% endif %}
+                  </div>
+                  <div class="col-6 text-end">
+                    {% if product.feature_4 %}<div>{{ product.feature_4 }}<i class="bi bi-check-circle text-warning ms-2"></i></div>{% endif %}
+                    {% if product.feature_5 %}<div>{{ product.feature_5 }}<i class="bi bi-check-circle text-warning ms-2"></i></div>{% endif %}
+                    {% if product.feature_6 %}<div>{{ product.feature_6 }}<i class="bi bi-check-circle text-warning ms-2"></i></div>{% endif %}
+                  </div>
+                </div>
+                <p  class="text-decoration-none fs-6">SEÇİLEN PAKET<i class="bi bi-check2-all text-white ms-2"></i></p>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-12 pb-4">
+              <div class="pricing-card payment-section">
+                <h3 class="text-primary-emphasis text-center">Ödeme Bilgileri</h3>
+                  {% if messages %}
+                  {% for message in messages %}
+                    <div class="alert text-center {% if message.tags %}alert-{{ message.tags }}{% endif %} alert-dismissible fade show mt-3" role="alert">
+                      {{ message }}
+                      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                  {% endfor %}
+                {% endif %}
+
+                <form method="post">
+                  {% csrf_token %}
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control rounded-3" name="FirstnameLastname" id="username" required placeholder="Kart Üzerindeki İsim" required>
+                    <label for="username">Kart Üzerindeki İsim</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="number" class="form-control rounded-3" name="CartNumber" id="username" required placeholder="Kart Numarası" required>
+                    <label for="username">Kart Numarası</label>
+                  </div>
+                  <div class="row">
+                    <div class="form-floating mb-3 col-md-6 col-sm-12">
+                      <input type="date" class="form-control rounded-3" name="CartDate" id="username" required placeholder="Kart Numarası" required>
+                      <label for="username" class="ms-2">Son Kullanma Tarihi</label>
+                    </div>
+                    <div class="form-floating mb-3 col-md-6 col-sm-12">
+                      <input type="number" class="form-control rounded-3" name="CartCvv" id="username" required placeholder="CVV" required>
+                      <label for="username" class="ms-2">CVV</label>
+                    </div>
+                  </div>
+                  <button type="submit" class="btn btn-lg {% if product.pk == 1 %}package-basic{% elif product.pk == 2 %}package-standard{% else %}package-premium{% endif %} mt-3 w-100">Ödemeyi Tamamla<i class="bi bi-arrow-right ms-2"></i></button>
+
+                </form>
+              </div>
+            </div>
+          </div>
+      </section>
+
+  <style>
+
+    /* ÖDEMEYİ TAMAMLA BUTONU */
+    .package-basic:hover,
+    .package-standard:hover,
+    .package-premium:hover {
+        color: white !important;
+    }
+
+    /* Genel Kart Tasarımı */
+    .pricing-card {
+        background: white;
+        border-radius: 16px;
+        padding: 45px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        min-height: 500px;
+        font-weight: bold;
+    }
+    
+    /* Paket Renkleri */
+    .package-basic {
+        background: linear-gradient(135deg, #007bff, #0056b3);
+        color: white;
+        border-left: 5px solid #004085;
+    }
+    
+    .package-standard {
+        background: linear-gradient(135deg, #28a745, #1e7e34);
+        color: white;
+        border-left: 5px solid #155724;
+    }
+    
+    .package-premium {
+        background: linear-gradient(135deg, #6f42c1, #4e2683);
+        color: white;
+        border-left: 5px solid #3d1d70;
+    }
+    
+    /* Fiyat Bilgisi */
+    .pricing-card h3 {
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: #fff;
+    }
+    
+    .pricing-card p {
+        font-size: 2rem;
+        font-weight: 800;
+        margin: 15px 0;
+    }
+    
+    /* Süre Butonu */
+    .package-duration-btn {
+        font-size: 1.2rem;
+        padding: 12px 24px;
+        font-weight: bold;
+        border-radius: 10px;
+        background: white;
+        color: black;
+    }
+    
+    .package-duration-btn .badge {
+        font-size: 1rem;
+        padding: 8px 12px;
+    }
+    
+    /* Özellik Listesi */
+    .pricing-details div {
+        padding: 10px 0;
+        font-weight: 500;
+        font-size: 1.1rem;
+    }
+    
+    
+    /* Ödeme Alanı Tasarımı */
+    .payment-section {
+        background: white;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        text-align: left;
+    }
+    
+    /* Form Elemanları */
+    .payment-section .form-floating input {
+        border-radius: 10px;
+        border: 2px solid #ddd;
+    }
+    
+    .payment-section label {
+        font-weight: bold;
+    }
+    
+    /* Ödeme Butonu */
+    .btn-success {
+        font-size: 1.2rem;
+        padding: 12px;
+        border-radius: 8px;
+    }
+    
+    /* Mobil Uyum */
+    @media (max-width: 768px) {
+        .pricing-card {
+            min-height: 460px;
+            padding: 35px;
+        }
+    
+        .payment-section {
+            padding: 30px;
+        }
+    }
+    
+  </style>
+  
+  
+  
+    {% include 'components/footer.html' %}
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  </body>
+</html>
