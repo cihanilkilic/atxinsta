@@ -396,16 +396,17 @@ title_agent = Agent("Başlık Ajanı",
     "Sadece sana verilen içerik metnine göre en fazla 5 kelimeden oluşan dikkat çekici bir başlık yazacaksın. "
     "Hashtag, içerik metni veya görsel açıklaması gibi şeylerle ilgilenme. "
     "Unutma: Senin görevin sadece başlık yazmak, fazlası değil. Sadece bir başlık oluştur.")
+
+
+
+openai.api_key = '
+
 @csrf_exempt
 def instagram_agents_start(request):
+    print("🚀 instagram_agents_start çağrıldı")
+
     if request.method == 'POST':
-        # ig_user_id = request.POST.get('IgUserId')
-        # access_token = request.POST.get('AccessToken')
-        # system_prompt = request.POST.get('SystemPrompt')
-        # user_prompt = request.POST.get('UserPrompt')
-        # date = request.POST.get('date')
-        # share_type = request.POST.get('shareType')
-        # selected_times = request.POST.get('selectedTimes')
+        print("📥 POST isteği alındı")
 
         # POST verilerini temizle
         ig_user_id = escape(request.POST.get('IgUserId', '').strip())
@@ -414,7 +415,10 @@ def instagram_agents_start(request):
         user_prompt = escape(request.POST.get('UserPrompt', '').strip())
         date = escape(request.POST.get('date', '').strip())
         share_type = escape(request.POST.get('shareType', '').strip())
-        selected_times = escape(request.POST.get('selectedTimes', '').strip())
+        selected_times = request.POST.get('selectedTimes').strip()
+
+        print("📌 Kullanıcıdan alınan veriler:", ig_user_id, access_token, date, share_type)
+
         # Görselleri al
         files = []
         index = 0
@@ -423,22 +427,26 @@ def instagram_agents_start(request):
             if not file:
                 break
             files.append(file)
+            print(f"🖼️ Yüklenen görsel: image_{index} -> {file.name}")
             index += 1
 
-        # Ortak içerikler
+        # İçerik oluşturucular
+        print("🤖 İçerik oluşturuluyor...")
         generated_content = content_agent.generate_response(user_prompt)
         generated_hashtags = hashtag_agent.generate_response(generated_content)
         generated_image_prompt = image_prompt_agent.generate_response(generated_content)
         generated_title = title_agent.generate_response(generated_content).title()
 
-        print("İçerik:", generated_content)
-        print("Hashtagler:", generated_hashtags)
-        print("Görsel Tanımı:", generated_image_prompt)
-        print("Başlık:", generated_title)
+        print("📝 İçerik:", generated_content)
+        print("🏷️ Hashtagler:", generated_hashtags)
+        print("🎨 Görsel Tanımı:", generated_image_prompt)
+        print("📛 Başlık:", generated_title)
 
         try:
             time_list = ast.literal_eval(selected_times)
-        except (ValueError, SyntaxError):
+            print("⏱️ Zaman listesi:", time_list)
+        except (ValueError, SyntaxError) as e:
+            print("❌ Zaman listesi çözümlenemedi:", str(e))
             time_list = []
 
         times = []
@@ -448,18 +456,17 @@ def instagram_agents_start(request):
                 parsed_time = parse_time(t)
                 if parsed_time:
                     times.append(parsed_time)
+                    print(f"🕒 Saat eklendi: {parsed_time}")
 
         if files:
-            # Kullanıcı görsel yüklemişse onu kullan
             first_file = files[0]
             saved_path = default_storage.save(f'instagram_images/{first_file.name}', first_file)
             files[0] = saved_path
             image_url = request.build_absolute_uri(default_storage.url(saved_path))
-
+            print("🧾 Kullanıcı görseli yüklendi:", image_url)
         else:
+            print("🧠 Görsel AI tarafından oluşturulacak...")
             import time
-            
-            # Kullanıcı görsel yüklemediyse OpenAI ile oluştur
             image_prompt = system_prompt
             timestamp = int(time.time())
             short_name = generated_title[:20].strip().replace(" ", "_")
@@ -474,18 +481,23 @@ def instagram_agents_start(request):
                 )
                 image_url = image_response['data'][0]['url']
                 img_data = requests.get(image_url)
+                print("🖼️ AI görsel URL:", image_url)
 
                 if img_data.status_code == 200 and img_data.content:
                     file_path = f'instagram_images/{file_name}'
                     file_content = ContentFile(img_data.content)
                     default_storage.save(file_path, file_content)
                     files.append(file_path)
+                    print("💾 AI görseli kaydedildi:", file_path)
                 else:
+                    print("❌ OpenAI görseli indirilemedi")
                     return JsonResponse({'status': 'error', 'message': 'OpenAI resmi indirilemedi.'})
             except Exception as e:
+                print("❌ OpenAI görsel oluşturma hatası:", str(e))
                 return JsonResponse({'status': 'error', 'message': f'OpenAI görsel hatası: {str(e)}'})
 
-        # InstagramAgents kaydet
+        # Veritabanına kaydet
+        print("💾 InstagramAgents kaydediliyor...")
         instagram_agent = InstagramAgents(
             user=request.user,
             content=generated_content,
@@ -500,17 +512,21 @@ def instagram_agents_start(request):
 
         for i, file in enumerate(files):
             setattr(instagram_agent, f'image{i + 1}', file)
+            print(f"📎 image{i + 1} ayarlandı: {file}")
 
         for i, time in enumerate(times):
             if i < 10:
                 setattr(instagram_agent, f'scheduled_time{i + 1}', time)
+                print(f"⏰ scheduled_time{i + 1} ayarlandı: {time}")
 
         instagram_agent.save()
+        print("✅ InstagramAgents kaydedildi")
 
-        # Instagram paylaşımı
-        PAGE_ACCESS_TOKEN = access_token or "EAAJlO7ZAAo8YBOyo7HkCk0pz3Q9LNtnDIMCRUskbr9ZAm1wHI0TKJ0l0jVK2qQrCty0yItLBcBrQFXr52efqiFYX4iQ92J3ZBYaL21qykJwjy80UfOOGueDW6EW4CVOBe7D55056GX6I9k5Gjiwxb3VtetsvP9YSPFjqngww88H1s5lvfmFzt9BcZBbquDdFAwZDZD"
-        IG_USER_ID = ig_user_id or "17841473186163452"
+        # Instagram API paylaşımı
+        PAGE_ACCESS_TOKEN = access_token or "..."  # Güvenlik için sabit token'ı kısalttım
+        IG_USER_ID = ig_user_id or "..."
 
+        print("📤 Instagram API ile paylaşım başlatılıyor...")
         container_url = f"https://graph.facebook.com/v19.0/{IG_USER_ID}/media"
         container_payload = {
             "image_url": image_url,
@@ -521,6 +537,7 @@ def instagram_agents_start(request):
         print("📦 Container Yanıtı:", container_res)
 
         if "id" not in container_res:
+            print("❌ Container oluşturulamadı")
             return JsonResponse({
                 'status': 'error',
                 'message': 'Instagram medya oluşturulamadı.',
@@ -538,12 +555,14 @@ def instagram_agents_start(request):
         print("✅ Yayın Yanıtı:", publish_res)
 
         if "id" not in publish_res:
+            print("❌ Yayın başarısız")
             return JsonResponse({
                 'status': 'error',
                 'message': 'Instagram paylaşımı başarısız.',
                 'detail': publish_res
             })
 
+        print("🎉 Instagram'da paylaşım başarılı")
         return JsonResponse({
             'status': 'success',
             'message': 'Görsel başarıyla Instagram’da paylaşıldı.',
@@ -551,6 +570,11 @@ def instagram_agents_start(request):
             "caption": f"{generated_title}\n\n{generated_content}\n\n{generated_hashtags}",
             'instagram_post_id': publish_res.get("id"),
         })
+    else:
+        print("❌ POST isteği değil")
+        return JsonResponse({'status': 'error', 'message': 'Sadece POST istekleri kabul edilir.'})
+
+
 import time
 from datetime import datetime
 
